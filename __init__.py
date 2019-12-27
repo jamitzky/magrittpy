@@ -6,9 +6,26 @@ class forall:
             return self.args[0]
         elif callable(other):
             return forall(other(*self.args))
-        
+
 class result:
     pass
 
+class op:
+    def __init__(self,func):
+        self.func=func
+    def __ror__(self,other):
+        self.op1=other
+        return self
+    def __or__(self,other):
+        self.op2=other
+        return self
+    def __call__(self,x):
+        return self.func(self.op1(x),self.op2(x))
+
+div=op(lambda x,y:x/y)
+
+def flatmap(f):
+    return lambda x,f=f:[f(i) for i in x]
+
 #tests:
-assert( 285 == forall(range(10)) >> (lambda x:[i**2 for i in x]) >>sum >> result)
+# m1=forall(range(10)) >> (lambda x:[i**2 for i in x]) >> (sum|div|len) >> result
