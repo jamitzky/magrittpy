@@ -40,3 +40,40 @@ forall(10)>>\
     flatmap(lambda x:x**2) >>\
     (sum|div|len) >>\ 
     result
+
+"""
+import numpy
+import math
+from magrittpy import *
+from sympy import *
+x,y,z=symbols("x y z")
+
+def lamn(expr):
+    return lambdify(x,expr,"numpy")
+def lamm(expr):
+    return lambdify(x,expr,"math")
+
+In [22]: %timeit forall(1000000) >> numpy.arange >> lamn(sin(x)) >> sum >> result
+634 ms ± 21.3 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+
+In [23]: %timeit forall(1000000) >> range >> flatmap(lamn(sin(x))) >> sum >> result
+3.39 s ± 765 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+
+In [24]: %timeit numpy.sum(numpy.sin(numpy.arange(1000000)))
+91.5 ms ± 17.9 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+
+In [25]: %timeit forall(1000000) >> numpy.arange >> numpy.sin >> numpy.sum >> result
+102 ms ± 15 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+
+In [27]: %timeit forall(1000000) >> range >> flatmap(lamm(sin(x))) >> sum >> result
+743 ms ± 8.22 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+
+In [28]: %timeit sum(math.sin(x) for x in range(1000000))
+597 ms ± 74.2 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+
+In [29]: %timeit forall(1000000) >> range >> flatmap(math.sin) >> sum >> result
+442 ms ± 37.5 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+
+In [30]: %timeit sum([math.sin(x) for x in range(1000000)])
+398 ms ± 116 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+"""
