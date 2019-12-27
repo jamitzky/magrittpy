@@ -33,8 +33,10 @@ forall(10)>>\
     flatmap(lambda x:x**2) >>\
     (sum|div|len) >>\ 
     print
-m1= forall(10)>>\ 
-      range >>\
-      flatmap(lambda x:x**2) >>\
-      (sum|div|len) >>\ 
-      result
+
+m1 =\ 
+forall(10)>>\ 
+    range >>\
+    flatmap(lambda x:x**2) >>\
+    (sum|div|len) >>\ 
+    result
