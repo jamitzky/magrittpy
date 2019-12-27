@@ -14,4 +14,4 @@ The package also provides a fork-like syntax like in J for dyads:
 
 which can be used inside the workflow:
 
-`forall(range(10)) >> (sum |op(lambda x,y:x/y)| len) >> result`
+`forall(10) >> range >> (sum|div|len) >> result`
