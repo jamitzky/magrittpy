@@ -2,7 +2,11 @@
 The package provides a pipe operator to stitch together workflows composed out of ordinary python functions.
 It is inspired by the magrittR package from R.
 
-Basic usage:
+# Installation
+
+`pip install git+https://github.com/jamitzky/magrittpy`
+
+# Basic usage
 
 `sum_of_lists = forall(x=list1, y=list2) >> flatmap(lambda x,y: x+y) >> sum >> result`
   
