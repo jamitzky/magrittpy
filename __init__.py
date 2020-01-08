@@ -6,6 +6,8 @@ class forall:
             return self.args[0]
         elif callable(other):
             return forall(other(*self.args))
+    def __call__(self,other):
+        return self >> other
 
 class result:
     pass
@@ -34,12 +36,8 @@ forall(10)>>\
     (sum|div|len) >>\ 
     print
 
-m1 =\ 
-forall(10)>>\ 
-    range >>\
-    flatmap(lambda x:x**2) >>\
-    (sum|div|len) >>\ 
-    result
+m1 = forall(10) >> range >> flatmap(lambda x:x**2) >> (sum|div|len) >> result
+m2=forall(10)(range)(sum)(result)
 
 """
 import numpy
